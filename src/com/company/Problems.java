@@ -19,6 +19,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
@@ -27,8 +28,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static java.lang.Integer.*;
-import static java.util.stream.Collectors.groupingBy;
-import static java.util.stream.Collectors.toSet;
+import static java.util.stream.Collectors.*;
 
 public class Problems {
 
@@ -1281,6 +1281,77 @@ public class Problems {
         Map<Integer,Set<Caine>> byAgeOrderd=lista.stream().collect(groupingBy(Caine::getVarsta,TreeMap::new,toSet())); //acum sunt sortate intr un set
 
     }
+
+    //todo:pb191
+    public static void filtering(){
+        List<Caine> lista=Arrays.asList(new Caine("sads",13),new Caine("bbb",4),new Caine("vbnm",4567));
+        Map<String, Set<Caine>> cainiFiltrati=lista.stream().filter(c->c.getVarsta()>13).collect(groupingBy(Caine::getNume,toSet()));
+        Map<Boolean, Set<String>> cainiMap=lista.stream().collect(partitioningBy((Caine c)->c.getVarsta()<7,mapping(Caine::getNume,toSet())));
+    }
+
+    //todo:pb192
+    public static void teeing192(){
+        List<Caine> lista=Arrays.asList(new Caine("sads",13),new Caine("bbb",4),new Caine("vbnm",4567));
+        AgesAndTotal agesAndTotal=lista.stream().collect(Collectors.teeing(summingInt(Caine::getVarsta),mapping(c->c.getVarsta(),toList()),AgesAndTotal::new));
+    }
+
+    //todo:pb193
+    public static void customCollector(){
+        List<Caine> lista=Arrays.asList(new Caine("sads",13),new Caine("bbb",4),new Caine("vbnm",4567));
+        Map<Boolean,List<Caine>> caini=lista.stream().collect(new CollectorCaini());
+    }
+
+    //todo:pb194
+    public static void methodReference(){
+        List<Caine> lista=Arrays.asList(new Caine("sads",13),new Caine("bbb",4),new Caine("vbnm",4567));
+        List<Integer> sortedAges=lista.stream().map(c->c.getVarsta()).sorted(Integer::compare).collect(toList());
+    }
+
+    //todo:pb195
+    public static void parallelProcessing(){
+
+        List<Integer> nrs=Arrays.asList(1,2,3,4,576,6);
+        Spliterator<Integer> s1=nrs.spliterator();
+        s1.tryAdvance(e-> System.out.println(e));
+        Spliterator<Integer> s2=s1.trySplit();
+        System.out.println(s1.estimateSize());
+    }
+
+
+    //todo:pb196
+    public static void notNullable(){
+        List<Integer> nrs=Arrays.asList(1,67,4,21,2,1,3,2,null);
+        System.out.println(collectionAsStreamWithNulls(null).count());
+        System.out.println(collectionAsStreamWithNulls(nrs).count());
+        System.out.println(collectionAsStream(nrs).count());
+    }
+
+    public static <T> Stream<T> collectionAsStreamWithNulls(Collection<T> element){
+        return Stream.ofNullable(element).flatMap(Collection::stream);
+    }
+
+    public static <T> Stream<T> collectionAsStream(Collection<T> collection){
+        return Stream.ofNullable(collection).flatMap(Collection::stream).flatMap(Stream::ofNullable);
+    }
+
+    //todo:pb197
+    public static void composing(){
+        Predicate<Caine> pred1=c->c.getVarsta()>7;
+        Predicate<Caine> pred2=pred1.and(c->c.getNume().equalsIgnoreCase("dani")).or(c->c.getNume().equalsIgnoreCase("silviu"));
+        Comparator<Caine> byAge=Comparator.comparing(Caine::getVarsta).thenComparing(Caine::getNume);
+        Function<Double, Double> g=x->Math.pow(x,2);
+        double result=g.apply(3.0);
+    }
+
+    //todo:pb198
+    //in interfata ICaine avem metoda default "sare()"
+
+    //todo:pb199
+    //tot package-ul cu ThreadStates. Fiecare clasa reprezinta un state al nui thread
+
+    //todo:pb200
+    //clasa LockClass
+
 
 
 
