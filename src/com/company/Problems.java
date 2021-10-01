@@ -19,6 +19,10 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -1351,6 +1355,50 @@ public class Problems {
 
     //todo:pb200
     //clasa LockClass
+
+    //todo:pb201
+
+    public static void threadPoolsExecutor(){
+        ExecutorService executor= Executors.newSingleThreadExecutor();
+        ExecutorService executor2=Executors.newWorkStealingPool();
+        ScheduledExecutorService executor3=Executors.newScheduledThreadPool(5);
+    }
+
+    //impreuna cu clasa SimpleThreadPoolExecutor
+
+    //todo:pb202
+    //clasa assemblyLine
+
+    //todo:pb203
+    //functia fixedTHreadsNr din clasa assemblyLine
+
+    //todo:pb204
+    //clasa CachedScheduledThreadPools
+
+
+    //todo:pb205
+    public static ExecutorService newWorkStealingPool(){
+        return new ForkJoinPool(Runtime.getRuntime().availableProcessors(), ForkJoinPool.defaultForkJoinWorkerThreadFactory,null,true);
+    }
+
+    //todo:pb206
+    //clasa CallableFuture
+
+    //todo:pb207
+    //clasa multipleCallable
+
+    //todo:pb208
+    //clasa LatchesProblem
+
+    //todo:pb209
+    //clasa BarrierProblem
+
+
+    //todo:pb210
+    //clasa ExchangerProblem
+
+
+
 
 
 
