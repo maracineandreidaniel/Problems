@@ -2,7 +2,6 @@ package com.company;
 
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.CyclicBarrier;
 import java.util.logging.Logger;
 
 public class ServerService implements Runnable {
@@ -11,7 +10,7 @@ public class ServerService implements Runnable {
     private CountDownLatch latch;
     private Random rnd=new Random();
 
-    public ServerService(CyclicBarrier latch, String serviceName){
+    public ServerService(CountDownLatch latch, String serviceName){
         this.latch=latch;
         this.serviceName=serviceName;
     }
